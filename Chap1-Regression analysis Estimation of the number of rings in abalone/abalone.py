@@ -137,7 +137,7 @@ def forward_postproc(output, y):
     square = np.square(diff)
     loss = np.mean(square)
     return loss, diff
-
+"""
 def backprop_postproc(G_loss, diff):
     shape = diff.shape
     
@@ -152,9 +152,9 @@ def backprop_postproc(G_loss, diff):
     return G_output
 
 """
-def backprop_postproc_oneline(G_loss, diff):
+def backprop_postproc(G_loss, diff):
     return 2*diff / np.prod(diff.shape)
-"""
+
 
 #정확도 계산 함수 정의
 def eval_accuracy(output, y):
