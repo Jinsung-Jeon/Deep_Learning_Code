@@ -159,4 +159,3 @@ def sigmoid_cross_entropy_with_logits(z, x):
 def sigmoid_cross_entropy_with_logits_derv(z, x):
     return -z + sigmoid(x)
 
-pulsar_exec()

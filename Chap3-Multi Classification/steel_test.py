@@ -16,7 +16,7 @@ np.random.seed(1234)
 RND_MEAN = 0
 RND_STD = 0.0030
 
-LEARNING_RATE = 0.0001
+LEARNING_RATE = 0.001
 
 #실험용 메인 함수 정의
 def steel_exec(epoch_count=10, mb_size=10, report=1):
@@ -61,7 +61,6 @@ def train_and_test(epoch_count, mb_size, report):
         if report > 0 and (epoch+1) % report == 0:
             acc = run_test(test_x, test_y)
             print('Epoch {}: loss ={:5.3f}, accuracy ={:5.3f}/{:5.3f}'.format(epoch+1, np.mean(losses), np.mean(accs),acc))
-        
     final_acc = run_test(test_x, test_y)
     print('\nFinal Test: final accuracy = {:5.3f}'.format(final_acc))
 #학습 및 평가 데이터 획득 함수 정의
@@ -172,5 +171,3 @@ def softmax_cross_entropy_with_logits(labels, logits):
 
 def softmax_cross_entropy_with_logits_derv(labels, logits):
     return softmax(logits)-labels
-
-steel_exec()

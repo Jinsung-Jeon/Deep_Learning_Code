@@ -160,5 +160,3 @@ def backprop_postproc(G_loss, diff):
 def eval_accuracy(output, y):
     mdiff = np.mean(np.abs((output - y)/y))
     return 1 - mdiff
-
-abalone_exec()

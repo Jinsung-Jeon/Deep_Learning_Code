@@ -19,7 +19,9 @@
 >
 >* 2020/01/22
 >    * Chap3- 선택 분류 : 철판 분량 상태 분류 신경망
-    
+
+>Multi Layer Perceptron
+
 <hr/>
 
 
