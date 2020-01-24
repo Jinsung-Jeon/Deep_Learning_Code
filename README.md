@@ -1,6 +1,7 @@
 ## 파이썬 날코딩으로 알고 짜는 딥러닝
 
 > 기간 2020.01.16 ~
+> 하루에 한 Chapter
 
 ## Study History
 >Single Layer Perceptron
