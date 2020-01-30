@@ -4,6 +4,9 @@ Created on Wed Jan 29 15:12:34 2020
 
 @author: Jinsung
 """
+from dataset import *
+from mathutil import *
+import numpy as np
 
 class FlowersDataset(Dataset):
     pass
@@ -11,14 +14,14 @@ class FlowersDataset(Dataset):
 def flowers_init(self, resolution=[100,100], input_shape =[-1]):
     super(FlowerDataset, self).__init__('flowers', 'select')
     
-    path = 'C:\Users\Jinsung\Documents\Deep_Learning_Code\Chap5- Classification Flower'
+    path = 'C:/Users/Jinsung/Documents/Deep_Learning_Code/Chap5- Classification Flower'
     self.target_names = list_dir(path)
     
     images = []
     idxs = []
     
     for dx, dname in enumerate(self.target_names):
-        subpath = paht + '/' + dname
+        subpath = path + '/' + dname
         filenames = list_dir(subpath)
         for fname in filenames:
             if fname[-4:] != '.jpg':

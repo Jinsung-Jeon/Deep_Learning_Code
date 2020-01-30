@@ -4,6 +4,7 @@ Created on Wed Jan 29 11:24:26 2020
 
 @author: Jinsung
 """
+import numpy as np
 
 class Dataset(object):
     def __init__(self, name, mode):
@@ -27,7 +28,7 @@ def dataset_get_train_data(self, batch_size, nth):
     return tr_X, tr_Y
 
 def dataset_shuffle_train_data(self, size):
-    self.indices = np.arrange(size)
+    self.indices = np.arange(size)
     np.random.shuffle(self.indices)
     
 Dataset.get_train_data = dataset_get_train_data

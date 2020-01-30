@@ -105,7 +105,7 @@ def show_select_results(est, ans, target_names, max_cnt=0):
             rstr = 'X'
         print('추정확률 분포 {} => 추정 {} : 정답 {} => {}'.format(pstr, estr, astr, rstr))
         
-def list_dir(paht):
+def list_dir(path):
     filenames = os.listdir(path)
     filenames.sort()
     return filenames

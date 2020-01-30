@@ -5,7 +5,11 @@ Created on Sun Jan 26 23:06:32 2020
 @author: Jinsung
 """
 
+from mathutil import *
+import numpy as np
+import time 
 np.random.seed(1234)
+
 def randomize():
     np.random.seed(time.time())
     
@@ -176,7 +180,7 @@ def mlp_backprop_layer(self, G_y, hconfig, pm, aux):
     
     return G_input
 
-MlpModel.forwarad_layer = mlp_forward_layer
+MlpModel.forward_layer = mlp_forward_layer
 MlpModel.backprop_layer = mlp_backprop_layer
 
 def mlp_forward_postproc(self, output, y):

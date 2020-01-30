@@ -5,6 +5,10 @@ Created on Wed Jan 29 14:26:59 2020
 @author: Jinsung
 """
 
+from dataset import *
+from mathutil import *
+import numpy as np
+
 class AbaloneDataset(Dataset):
     def __init__(self):
         super(AbaloneDataset, self).__init__('abalone', 'regression') #abalone과 regression으로 설정 
@@ -14,7 +18,7 @@ class AbaloneDataset(Dataset):
         xs = np.zeros([len(rows), 10])
         ys = np.zeros([len(rows), 1])
         
-         for n, row in enumerate(rows):
+        for n, row in enumerate(rows):
             if row[0] == 'I':
                 xs[n, 0] = 1
             if row[0] == 'M':

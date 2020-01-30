@@ -56,3 +56,8 @@ runfile('C:/Users/Jinsung/Documents/Deep_Learning_Code/Chap3-Multi Classificatio
 LEARNING_RATE = 0.0001
 set_hidden([12,6,4])
 steel_exec(epoch_count=50, report=10)
+
+#Chap5 test
+ad = AbaloneDataset()
+am = MlpModel('abalone_model',ad,[])
+am.exec_all(epoch_count=10, report=2)
