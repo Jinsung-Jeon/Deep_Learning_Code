@@ -4,6 +4,8 @@ Created on Wed Jan 29 11:24:26 2020
 
 @author: Jinsung
 """
+from mathutil import *
+
 import numpy as np
 
 class Dataset(object):
@@ -48,7 +50,7 @@ def dataset_get_validate_data(self, count):
     
     return va_X, va_Y
 
-Dataset.get_validation_data = dataset_get_validate_data
+Dataset.get_validate_data = dataset_get_validate_data
 Dataset.get_visualize_data = dataset_get_validate_data
 
 def dataset_shuffle_data(self, xs, ys, tr_ratio=0.8, va_ratio=0.05):

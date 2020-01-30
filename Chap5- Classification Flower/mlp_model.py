@@ -8,6 +8,7 @@ Created on Sun Jan 26 23:06:32 2020
 from mathutil import *
 import numpy as np
 import time 
+
 np.random.seed(1234)
 
 def randomize():
@@ -97,7 +98,7 @@ def mlp_model_train(self, epoch_count=10, batch_size=10, learning_rate=0.001, re
 MlpModel.train = mlp_model_train
 
 def mlp_model_test(self):
-    teX, teY = self.datset.get_test_data()
+    teX, teY = self.dataset.get_test_data()
     time1 = int(time.time())
     acc = self.eval_accuracy(teX, teY)
     time2 = int(time.time())
@@ -160,7 +161,7 @@ def mlp_forward_layer(self, x, hconfig, pm):
     y = np.matmul(x, pm['w']) + pm['b']
     if hconfig is not None:
         y = relu(y)
-        return y, [x,y]
+    return y, [x,y]
     
 def mlp_backprop_layer(self, G_y, hconfig, pm, aux):
     x, y = aux
@@ -197,7 +198,7 @@ MlpModel.forward_extra_cost = mlp_forward_extra_cost
 def mlp_backprop_postproc(self, G_loss, aux):
     aux_loss, aux_extra = aux
     self.backprop_extra_cost(G_loss, aux_extra)
-    G_output = self.dataset.vackprop_postproc(G_loss, aux_loss)
+    G_output = self.dataset.backprop_postproc(G_loss, aux_loss)
     return G_output
 
 def mlp_backprop_extra_cost(self, G_loss, aux):

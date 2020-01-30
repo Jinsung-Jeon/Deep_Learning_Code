@@ -77,7 +77,7 @@ class PulsarSelectDataset(Dataset):
         rows, _ = load_csv('C:/Users/Jinsung/Documents/Deep_Learning_Code/Datasets/predicting-a-pulsar-star/pulsar_stars.csv')
         
         data = np.asarray(rows, dtype='float32')
-        self.shuffle_data(data[:,:-1], onehow(data[:,-1], 2), 0.8)
+        self.shuffle_data(data[:,:-1], onehot(data[:,-1], 2), 0.8)
         self.target_names = ['별', '펄서']
         
     def visualize(self, xs, estimates, answers):
