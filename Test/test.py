@@ -85,3 +85,11 @@ fm2.exec_all(epoch_count=10, report=2)
 od = Office31Dataset()
 om1 = MlpModel('office31_model_1', od, [10])
 om1.exec_all(epoch_count=20, report=10)
+
+
+om2 = MlpModel('office31_model_2', od, [64,32,10])
+om2.exec_all(epoch_count=20, report=10, learning_rate=0.0001)
+
+om3 = MlpModel('office31_model_3', od, [64,32,10])
+om3.use_adam = True
+om3.exec_all(epoch_count=50, report=10, learning_rate=0.0001)
