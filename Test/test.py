@@ -80,3 +80,8 @@ fm = MlpModel('flowers_model_1', fd, [10]) #같은 추정확률분포를 통해 
 fm.exec_all(epoch_count=10, report=2)
 fm2 = MlpModel('flowers_model_2', fd, [30,10])
 fm2.exec_all(epoch_count=10, report=2)
+
+#Chap6 test
+od = Office31Dataset()
+om1 = MlpModel('office31_model_1', od, [10])
+om1.exec_all(epoch_count=20, report=10)

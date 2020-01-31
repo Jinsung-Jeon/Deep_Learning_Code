@@ -7,6 +7,7 @@ Created on Fri Jan 31 13:49:08 2020
 import sys
 sys.path.insert(0, 'C:\\Users\\Jinsung\\Documents\\Deep_Learning_Code\\Chap5- Classification Flower')
 from mathutil import *
+from mlp_model import *
 
 class AdamModel(MlpModel):
     def __init__(self, name, dataset, hconfigs):
