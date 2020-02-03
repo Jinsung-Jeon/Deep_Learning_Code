@@ -5,7 +5,6 @@
 
 ## Study History
 >Single Layer Perceptron
->
 >* 2020/01/16
 >    * Git 공부
 >    * 실습환경 구성
@@ -29,7 +28,10 @@
 >    * Chap5- 다층 퍼셉트론 기본 구조 : 꽃 이미지 분류 신경망
 >        * Chap5 파일 zip파일로 업로드 
 >* 2020/01/31
-    * Chap6- 복합 출력의 처리 방법 : 오피스31 다차원 분류
+>    * Chap6- 복합 출력의 처리 방법 : 오피스31 다차원 분류
+>Convolutional neural network, CNN)
+>* 2020/01/23
+>    * Chap7- 간단한 합성곱 모델 : 꽃 이미지 분류 신경망
 <hr/>
 
 
