@@ -83,7 +83,7 @@ def cnn_basic_alloc_pool_layer(self, input_shape, hconfig):
     assert xh % sh == 0
     assert xw % sw == 0
     
-    return {}, [xh//sh, sw//sw, xchn]
+    return {}, [xh//sh, xw//sw, xchn]
 
 CnnBasicModel.alloc_full_layer = cnn_basic_alloc_full_layer
 CnnBasicModel.alloc_conv_layer = cnn_basic_alloc_conv_layer
@@ -125,7 +125,7 @@ def cnn_basic_forward_full_layer(self, x, hconfig, pm):
         x = x.reshape([mb_size, -1])
         
     affine = np.matmul(x, pm['w']) + pm['b']
-    y = self.activat(affine, hconfig)
+    y = self.activate(affine, hconfig)
     
     return y, [x, y, x_org_shape]
 
@@ -136,7 +136,7 @@ def cnn_basic_backprop_full_layer(self, G_y, hconfig, pm, aux):
         return G_y
     x, y, x_org_shape = aux
     
-    G_affine = self.activat_derv(G_y, y, hconfig)
+    G_affine = self.activate_derv(G_y, y, hconfig)
     
     g_affine_weight = x.transpose()
     g_affine_input = pm['w'].transpose()
@@ -310,7 +310,7 @@ def get_ext_regions(x, kh, kw, fill):
     
     for r in range(xh):
         for c in range(xw):
-            regs[r, x, :] = x_ext[:, r:r+kh, c:c+kw, :].flatten()
+            regs[r, c, :] = x_ext[:, r:r+kh, c:c+kw, :].flatten()
     
     return regs.reshape([xh, xw, mb_size, kh, kw, xchn])
 

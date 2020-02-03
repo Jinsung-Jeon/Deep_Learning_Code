@@ -11,7 +11,7 @@ from mlp_model import *
 
 class AdamModel(MlpModel):
     def __init__(self, name, dataset, hconfigs):
-        sefl.use_adam = False
+        self.use_adam = False
         super(AdamModel, self).__init__(name, dataset, hconfigs)
         
 def adam_backprop_layer(self, G_y, hconfig, pm, aux):
@@ -20,17 +20,17 @@ def adam_backprop_layer(self, G_y, hconfig, pm, aux):
         
         G_y = relu_derv(y) * G_y
         
-        g_y_weight = x.transpose()
-        g_y_input = pm['w'].transpose()
+    g_y_weight = x.transpose()
+    g_y_input = pm['w'].transpose()
         
-        G_weight = np.matmul(g_y_weight, G_y)
-        G_bias = np.sum(G_y, axis=0)
-        G_input = np.matmul(G_y, g_y_input)
+    G_weight = np.matmul(g_y_weight, G_y)
+    G_bias = np.sum(G_y, axis=0)
+    G_input = np.matmul(G_y, g_y_input)
         
-        self.update_param(pm, 'w', G_weight)
-        self.update_param(pm, 'b', G_bias)
+    self.update_param(pm, 'w', G_weight)
+    self.update_param(pm, 'b', G_bias)
         
-        return G_input
+    return G_input
 
 AdamModel.backprop_layer = adam_backprop_layer
 

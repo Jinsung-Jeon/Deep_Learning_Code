@@ -14,7 +14,7 @@ class FlowersDataset(Dataset):
 def flowers_init(self, resolution=[100,100], input_shape =[-1]):
     super(FlowersDataset, self).__init__('flowers', 'select')
     
-    path = 'C:/Users/Jinsung/Documents/Deep_Learning_Code/Datasets/flowers'
+    path = 'C:/Users/Jinsung/Documents/Deep_Learning_Code/Datasets/flowers/flowers'
     self.target_names = list_dir(path)
     
     images = []
