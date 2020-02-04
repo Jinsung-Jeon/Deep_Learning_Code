@@ -6,7 +6,7 @@ Created on Fri Jan 31 14:23:52 2020
 """
 
 import sys
-sys.path.insert(0, 'C:\\Users\\Jinsung\\Documents\\Deep_Learning_Code\\Chap5- Classification Flower')
+sys.path.insert(0, 'C:\\Users\\Jinsung\\Documents\\Deep_Learning_Code\\Chap5-Classification Flower')
 from dataset import *
 
 class Office31Dataset(Dataset):

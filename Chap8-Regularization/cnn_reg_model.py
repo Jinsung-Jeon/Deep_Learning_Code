@@ -6,7 +6,7 @@ Created on Tue Feb  4 10:58:07 2020
 """
 
 import sys
-sys.path.insert(0, 'C:\\Users\\Jinsung\\Documents\\Deep_Learning_Code\\Chap7- Simple CNN')
+sys.path.insert(0, 'C:\\Users\\Jinsung\\Documents\\Deep_Learning_Code\\Chap7-Simple CNN')
 from cnn_basic_model import *
 
 class CnnRegModel(CnnBasicModel):
