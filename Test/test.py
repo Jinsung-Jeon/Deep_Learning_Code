@@ -138,3 +138,76 @@ om3 = CnnBasicModel('officie31_model_3', od,
                      ['conv', {'ksize':3, 'chn':24, 'actfunc':'tanh'}],
                      ['avg', {'stride':3}]])
 om3.exec_all(epoch_count=10, report =2)
+
+#Chap8 test
+fd = FlowersDataset([96, 96], [96, 96, 3])
+od = Office31Dataset([96, 96], [96, 96, 3])
+fm1 = CnnRegModel('flowers_model_1', fd, [30, 10])
+fm1.exec_all(epoch_count=10, report=2, show_params=True)
+
+fm2 = CnnRegModel('flowers_model_2', fd, [30, 10], l2_decay=0.1)
+fm2.exec_all(epoch_count=10, show_cnt=0, show_params=True)
+
+fm3 = CnnRegModel('flowers_model_3', fd, [30, 10], l1_decay=0.1)
+fm3.exec_all(epoch_count=10, show_cnt=0, show_params=True)
+
+cnn1 = [['conv', {'ksize':3, 'chn':6}],
+        ['max', {'stride':2}], 
+        ['conv', {'ksize':3, 'chn':12}],
+        ['max', {'stride':2}],
+        ['conv', {'ksize':3, 'chn':24}],
+        ['avg', {'stride':3}]]
+fcnn1 = CnnRegModel('flowers_cnn_1')
+fcnn1.exec_all(epoch_count=10, report=2)
+
+cnn2 = [['conv', {'ksize':3, 'chn':6}],
+        ['max', {'stride':2}], 
+        ['dropout', {'keep_prob':0.6}],
+        ['conv', {'ksize':3, 'chn':12}],
+        ['max', {'stride':2}],
+        ['dropout', {'keep_prob':0.6}],
+        ['conv', {'ksize':3, 'chn':24}],
+        ['avg', {'stride':3}],
+        ['dropout', {'keep_prob':0.6}]]
+
+fcnn2 = CnnRegModel('flowers_cnn_2',fd, cnn2)
+fcnn2.exec_all(epoch_count=10, report=2, show_cnt=0)
+
+cnn3 = [['noise', {'type':'normal','mean':0,'std':0.01}],
+        ['conv', {'ksize':3, 'chn':6}],
+        ['max', {'stride':2}], 
+        ['noise', {'type':'normal','mean':0,'std':0.01}],
+        ['conv', {'ksize':3, 'chn':12}],
+        ['max', {'stride':2}],
+        ['noise', {'type':'normal','mean':0,'std':0.01}],
+        ['conv', {'ksize':3, 'chn':24}],
+        ['avg', {'stride':3}]]
+
+fcnn3 = CnnRegModel('flowers_cnn_3',fd, cnn3)
+fcnn3.exec_all(epoch_count=10, report=2, show_cnt=0)
+
+cnn4 = [['batch_normal'],
+        ['conv', {'ksize':3, 'chn':6}],
+        ['max', {'stride':2}], 
+        ['batch_normal'],
+        ['conv', {'ksize':3, 'chn':12}],
+        ['max', {'stride':2}],
+        ['batch_normal'],
+        ['conv', {'ksize':3, 'chn':24}],
+        ['avg', {'stride':3}]]
+
+fcnn4 = CnnRegModel('flowers_cnn_4',fd, cnn4)
+fcnn4.exec_all(epoch_count=10, report=2, show_cnt=0)
+
+od = Office31Dataset([96, 96], [96, 96, 3])
+ocnn1 = CnnRegModel('office31_cnn_1', od, cnn1)
+ocnn2 = CnnRegModel('office31_cnn_2', od, cnn1)
+ocnn3 = CnnRegModel('office31_cnn_3', od, cnn1)
+ocnn4 = CnnRegModel('office31_cnn_4', od, cnn1)
+
+ocnn1.exec_all(epoch_count=10, show_cnt=0)
+ocnn2.exec_all(epoch_count=10, show_cnt=0)
+ocnn3.exec_all(epoch_count=10, show_cnt=0)
+ocnn4.exec_all(epoch_count=10, show_cnt=0)
+
+
