@@ -5,6 +5,10 @@ Created on Wed Feb  5 10:46:48 2020
 @author: Jinsung
 """
 
+import sys
+sys.path.insert(0, 'C:\\Users\\Jinsung\\Documents\\Deep_Learning_Code\\Chap8-Regularization')
+from cnn_reg_model import *
+
 class CnnExtModel(CnnRegModel):
     macros = {}
     
@@ -85,7 +89,7 @@ def cnn_ext_forward_parallel_layer(self, x, hconfig, pm):
     return y, [bauxes, bchns]
 
 def cnn_ext_backprop_parallel_layer(self, G_y, hconfig, pm, aux):
-    bauxes, bchns = auxb
+    bauxes, bchns = aux
     bcn_from = 0
     G_x = 0
     for n, bconfig in enumerate(hconfig[2:]):
@@ -329,7 +333,7 @@ def cnn_ext_alloc_conv_layer(self, input_shape, hconfig):
             input_shape = output_shape
         elif act == 'B':
             bn_config = ['batch_normal', {'rescale':False}]
-            pm['bn'], _ = self.alloc_batch_noraml_layeR(input_shape, bn_config)
+            pm['bn'], _ = self.alloc_batch_normal_layer(input_shape, bn_config)
             
     xh, xw, xchn = input_shape
     ychn = get_conf_param(hconfig, 'chn')
@@ -339,7 +343,7 @@ def cnn_ext_alloc_conv_layer(self, input_shape, hconfig):
 CnnExtModel.alloc_conv_layer = cnn_ext_alloc_conv_layer
 
 # 합성곱 계층을 위한 순전파 처리 메서드 재정의
-def cnn_exp_forward_conv_layer(self, x, hconfig, pm):
+def cnn_ext_forward_conv_layer(self, x, hconfig, pm):
     y = x
     x_flat, k_flat, relu_y, aux_bn = None, None, None, None
     for act in pm['actions']:
@@ -349,6 +353,7 @@ def cnn_exp_forward_conv_layer(self, x, hconfig, pm):
             x_flat = get_ext_regions_for_conv(y, kh, kw)
             k_flat = pm['k'].reshape([kh*kw*xchn, ychn])
             conv_flat = np.matmul(x_flat, k_flat)
+            y = conv_flat.reshape([mb_size, xh, xw, ychn]) + pm['b']
             
         elif act == 'A':
             y = self.activate(y, hconfig)
@@ -367,7 +372,7 @@ def cnn_exp_forward_conv_layer(self, x, hconfig, pm):
 CnnExtModel.forward_conv_layer = cnn_ext_forward_conv_layer
 
 #합성곱 계층을 위한 역전파 처리 메서드 재정의            
-def cnn_exp_backprop_conv_layer(self, G_y, hconfig, pm, aux):
+def cnn_ext_backprop_conv_layer(self, G_y, hconfig, pm, aux):
     x_flat, k_flat, x, relu_y, aux_bn, aux_stride = aux
     
     G_x = stride_filter_derv(hconfig, True, G_y, aux_stride)
@@ -396,7 +401,7 @@ def cnn_exp_backprop_conv_layer(self, G_y, hconfig, pm, aux):
             
     return G_x
 
-CnnExtModel.backprop_conv_layer = cnn_exp_backprop_conv_layer
+CnnExtModel.backprop_conv_layer = cnn_ext_backprop_conv_layer
 
 #최대치 풀링 계층을 위한 파라미터 생성 메서드 재정의
 def cnn_ext_alloc_max_layer(self, input_shape, hconfig):
@@ -488,7 +493,7 @@ def cnn_ext_forward_avg_layer(self, x, hconfig, pm):
     padding = get_conf_param(hconfig, 'padding', 'SAME')
     
     if [sh, sw] == [kh, kw] and xh % sh == 0 and xw % sw == 0 and padding == 'SAME':
-        return super(CnnExtModel, self).forawrd_avg_layer(x, hconfig, pm)
+        return super(CnnExtModel, self).forward_avg_layer(x, hconfig, pm)
     
     x_flat = get_ext_regions(x, kh, kw, 0)
     x_flat = x_flat.transpose([2,5,0,1,3,4])
@@ -505,6 +510,96 @@ def cnn_ext_forward_avg_layer(self, x, hconfig, pm):
     if self.need_maps:
         self.maps.append(y)
         
-    return y [x.shape, kh, kw, sh, sw, padding, aux_stride]
+    return y, [x.shape, kh, kw, sh, sw, padding, aux_stride]
 
 CnnExtModel.forward_avg_layer = cnn_ext_forward_avg_layer
+
+# 평균치 풀링 계층을 위한 역전파 처리 메서드 재정의
+def cnn_ext_backprop_avg_layer(self, G_y, hconfig, pm, aux):
+    if not isinstance(aux, list):
+        return super(CnnExtModel, self).backprop_avg_layer(G_y, hconfig, pm, aux)
+    
+    x_shape, kh, kw, sh, sw, padding, aux_stride = aux
+    mb_size, xh, xw, chn = x_shape
+    
+    G_y = stride_filter_derv(hconfig, False, G_y, aux_stride)
+    
+    G_y = G_y.transpose([0,3,1,2])
+    G_y = G_y.flatten()
+    
+    G_hap = np.reshape(G_y, [mb_size, -1]) / pm['mask']
+    G_x_flat = np.tile(G_hap, (kh*kw, 1))
+    
+    G_x_flat = G_x_flat.reshape(mb_size, chn, xh, xw, kh, kw)
+    G_x_flat = G_x_flat.transpose([2,3,0,4,5,1])
+    G_x = undo_ext_regions(G_x_flat, kh, kw)
+    
+    return G_x
+    
+CnnExtModel.backprop_avg_layer = cnn_ext_backprop_avg_layer
+
+# 출력 형태 계산 함수 정의하기
+def eval_stride_shape(hconfig, conv_type, xh, xw, ychn):
+    kh, kw, sh, sw, padding = get_shape_params(hconfig, conv_type)
+    if padding == 'VALID':
+        xh = xh - kh + 1
+        xw = xw - kw + 1
+        
+    yh = xh // sh
+    yw = xw // sw
+    
+    return [yh, yw, ychn]
+
+# 건너뛰기 반영 함수 정의
+def stride_filter(hconfig, conv_type, y):
+    _, xh, xw, _ = x_shape = y.shape
+    nh, nw = xh, xw
+    kh, kw, sh, sw, padding = get_shape_params(hconfig, conv_type)
+    
+    if padding == 'VALID':
+        bh, bw = (kh - 1)//2, (kw - 1)//2
+        nh, nw = xh - kh + 1, xw - kw + 1
+        y = y[:, bh:bh+nh, bw:bw+nw:, :]
+        
+    if sh != 1 or sw != 1:
+        bh, bw = (sh - 1)//2, (sw - 1)//2
+        mh, mw = nh // sh, nw // sw
+        y = y[:, bh:bh+mh*sh:sh, bw:bw+mw*sw:sw, :]
+        
+    return y, [x_shape, nh, nw]
+
+# 출력 변형의 역처리 함수 정의하기
+def stride_filter_derv(hconfig, conv_type, G_y, aux):
+    x_shape, nh, nw = aux
+    mb_size, xh, xw, chn = x_shape
+    kh, kw, sh, sw, padding = get_shape_params(hconfig, conv_type)
+    
+    if sh != 1 or sw != 1:
+        bh, bw = (sh - 1)//2, (sw - 1)//2
+        mh, mw = nh // sh, nw // sw
+        G_y_tmp = np.zeros([mb_size, nh, nw, chn])
+        G_y_tmp[:, bh:bh+mh*sh:sh, bw:bw+mw*sw:sw, :] = G_y
+        G_y = G_y_tmp
+        
+    if padding == 'VALID':
+        bh, bw = (kh - 1)//2, (kw - 1)//2
+        nh, nw = xh - kh + 1, xw - kw + 1
+        G_y_tmp = np.zeros([mb_size, xh, xw, chn])
+        G_y_tmp[:, bh:bh+nh, bw:bw+nw:, :] = G_y
+        G_y = G_y_tmp
+        
+    return G_y
+
+# 은닉 계층 구성 정보 획득 함수 정의하기
+def get_shape_params(hconfig, conv_type):
+    if conv_type:
+        kh, kw = get_conf_param_2d(hconfig, 'ksize')
+        sh, sw = get_conf_param_2d(hconfig, 'stride', [1,1])
+        
+    else:
+        sh, sw = get_conf_param_2d(hconfig, 'stride', [1,1])
+        kh, kw = get_conf_param_2d(hconfig, 'ksize', [sh, sw])
+        
+    padding = get_conf_param(hconfig, 'padding', 'SAME')
+    
+    return kh, kw, sh, sw, padding

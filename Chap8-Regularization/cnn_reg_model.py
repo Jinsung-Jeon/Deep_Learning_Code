@@ -139,7 +139,7 @@ def cnn_reg_forward_batch_normal_layer(self, x, hconfig, pm):
     if self.is_training:
         x_flat = x.reshape([-1, x.shape[-1]])
         avg = np.mean(x_flat, axis=0)
-        var = np.var(x_flat, axist=0)
+        var = np.var(x_flat, axis=0)
         pm['mavg'] += pm['exp_ratio'] * (avg - pm['mavg'])
         pm['mvar'] += pm['exp_ratio'] * (var - pm['mvar'])
         
