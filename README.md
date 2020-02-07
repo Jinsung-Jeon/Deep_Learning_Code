@@ -29,13 +29,16 @@
 >        * Chap5 파일 zip파일로 업로드 
 >* 2020/01/31
 >    * Chap6- 복합 출력의 처리 방법 : 오피스31 다차원 분류
->Convolutional neural network, CNN)
+>Convolutional Neural Network(CNN)
 >* 2020/02/03
 >    * Chap7- 간단한 합성곱 모델 : 꽃 이미지 분류 신경망
 >* 2020/02/04 
 >    * Chap8- 다섯 가지 정규화 확장 : 꽃 이미지 분류 신경망
->* 2020/02/05 ~
+>* 2020/02/05 ~ 2020/02/06
 >    * Chap9- 인셉션 모델과 레스넷 모델 : 꽃 이미지 분류 신경망
+>Recurrent neural network(RNN)
+>*2020/02/07
+>    * Chap9- 기본 셀 순환 신경망 : 오토마타 문장 판별 신경망
 <hr/>
 
 
