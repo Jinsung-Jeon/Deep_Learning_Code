@@ -371,7 +371,7 @@ conf_flower_LAB = ['custom', {'name':'inception_flower', 'args':{'#act':'LAB'}}]
 model_flower_LAB = CnnExtModel('model_flower_LAB', fd, conf_flower_LAB, dump_structure=False)
 model_flower_LAB.exec_all(epoch_count=10, report=2)
 
-#Chap9
+#Chap10
 ad = AutomataDataset()
 
 am_4 = RnnBasicModel('am_4', ad, ['rnn', {'recur_size':4, 'outseq':False}])
@@ -384,3 +384,28 @@ am_64.exec_all(epoch_count=10, report=2)
 
 am_64_drop = RnnBasicModel('am_64_drop', ad, [['rnn', {'recur_size':64, 'outseq':False}],['dropout', {'keep_prob':0.5}]])
 am_64_drop.exec_all(epch_count=10, report=2)
+
+#Chap11
+ad = AutomataDataset()
+am_4 = RnnLstmModel('am_4', ad, ['lstm', {'recur_size':64, 'outseq':False}])
+am_4.exec_all(epoch_count=10, report=2)
+
+usd_10_10 = UrbanSoundDataset(10, 10)
+usd_10_100 = UrbanSoundDataset(10, 100)
+
+conf_basic = ['rnn', {'recur_size':20, 'outseq':False}]
+conf_lstm = ['lstm', {'recur_size':20, 'outseq':False}]
+conf_state = ['lstm', {'recur_size':20, 'outseq':False, 'use_state':True}]
+
+us_basic_10_10 = RnnLstmModel('us_basic_10_10', usd_10_10, conf_basic)
+us_lstm_10_10 = RnnLstmModel('us_lstm_10_10', usd_10_10, conf_lstm)
+us_state_10_10 = RnnLstmModel('us_state_10_10', usd_10_10, conf_state)
+
+us_basic_10_100 = RnnLstmModel('us_basic_10_100', usd_10_100, conf_basic)
+us_lstm_10_100 = RnnLstmModel('us_lstm_10_100', usd_10_100, conf_lstm)
+us_state_10_100 = RnnLstmModel('us_state_10_100', usd_10_100, conf_state)
+
+us_basic_10_10.exec_all(epoch_count=10, report=2)
+us_lstm_10_10.exec_all(epoch_count=10, report=2)
+us_state_10_10.exec_all(epoch_count=10, report=2, show_cnt=0)
+

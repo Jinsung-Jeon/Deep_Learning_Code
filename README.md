@@ -36,8 +36,9 @@
 >Recurrent neural network(RNN)
 >* 2020/02/07
 >    * Chap9- 기본 셀 순환 신경망 : 오토마타 문장 판별 신경망
->* 2020/02/10
+>* 2020/02/10, 12
 >    * Chap10- LSTM 순환 신경망 : 도시 소음 분류 신경망
+>    * sigmoid_derv 오류 찾아내
 <hr/>
 
 
