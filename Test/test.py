@@ -409,3 +409,13 @@ us_basic_10_10.exec_all(epoch_count=10, report=2)
 us_lstm_10_10.exec_all(epoch_count=10, report=2)
 us_state_10_10.exec_all(epoch_count=10, report=2, show_cnt=0)
 
+#Chap12
+vsd = np.load('C:\\Users\\Jinsung\\Documents\\Deep_Learning_Code\\Datasets\\chap12\\cache\\AstarIsBorn1937.mp4.npy')
+
+conf1 = [['seqwrap', ['avg', {'stride':30}],
+                     ['conv', {'ksize':3, 'chn':12}],
+                     ['full', {'width':16}]],
+         ['lstm', {'recur_size':8}]]
+vsm1 = RnnExtModel('vsm1', vsd, conf1)
+vsm1.exec_all(epoch_count=10, report=2, show_cnt=3)
+vsd.shape
