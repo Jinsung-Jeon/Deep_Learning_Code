@@ -86,7 +86,7 @@ def rnn_ext_init_parameters(self, hconfigs):
     self.hconfigs = hconfigs
     self.pm_hiddens = []
     
-    prev_shape = self.dataset.shape
+    prev_shape = self.dataset.input_shape
     
     for hconfig in hconfigs:
         pm_hidden, prev_shape = self.alloc_layer_param(prev_shape, hconfig)

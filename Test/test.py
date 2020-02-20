@@ -419,3 +419,61 @@ conf1 = [['seqwrap', ['avg', {'stride':30}],
 vsm1 = RnnExtModel('vsm1', vsd, conf1)
 vsm1.exec_all(epoch_count=10, report=2, show_cnt=3)
 vsd.shape
+
+#Chap13
+mset_all = MnistAutoDataset(train_ratio=1.00)
+mset_1p = MnistAutoDataset(train_ratio=0.01)
+
+conf_mlp = [['full',{'width':10}]]
+mnist_mlp_all = RnnExtModel('mnist_mlp_all', mset_all, conf_mlp)
+mnist_mlp_all.exec_all(epoch_count=10, report=2)
+
+conf_auto = {
+    'encoder': [['full', {'width':10}]],
+    'decoder': [['full', {'width':784}]],
+    'supervised': [['full', {'width':10}]]
+    }
+
+mnist_auto_1 = Autoencoder('mnist_auto_1',mset_1p, conf_auto)
+mnist_auto_1.autoencode(epoch_count=10, report=2)
+mnist_auto_1.exec_all(epoch_count=10, report=2)
+
+
+mnist_auto_fix = Autoencoder('mnist_auto_fix', mset_1p, conf_auto, fix_encoder=True)
+mnist_auto_fix.autoencode(epoch_count=10, report=5)
+mnist_auto_fix.exec_all(epoch_count=10, report=5)
+
+conf_auto_2 = {
+    'encoder': [['full', {'width':64}], ['full', {'width':10}]],
+    'decoder': [['full', {'width':64}], ['full', {'width':784}]],
+    'supervised': [['full', {'width':10}]]
+    }
+
+mnist_auto_2 = Autoencoder('mnist_auto_2',mset_1p, conf_auto_2)
+mnist_auto_2.autoencode(epoch_count=10, report=2)
+mnist_auto_2.exec_all(epoch_count=10, report=2)
+
+conf_hash_1 = {
+    'encoder': [['full', {'width':10, 'actfunc':'sigmoid'}]],
+    'decoder': [['full', {'width':784}]],
+    'supervised': []
+    }
+mnist_hash_1 = Autoencoder('mnist_hash_1',mset_1p, conf_hash_1)
+mnist_hash_1.autoencode(epoch_count=10, report=2)
+mnist_hash_1.semantic_hashing_index()
+mnist_hash_1.semantic_hashing_search()
+
+conf_hash_2 = {
+    'encoder': [['full', {'width':64}],['full', {'width':10, 'actfunc':'sigmoid'}]],
+    'decoder': [['full', {'width':64}],['full', {'width':784}]],
+    'supervised': []
+    }
+mnist_hash_2 = Autoencoder('mnist_hash_2',mset_1p, conf_hash_2)
+mnist_hash_2.autoencode(epoch_count=10, report=2)
+mnist_hash_2.semantic_hashing_index()
+mnist_hash_2.semantic_hashing_search()
+
+mnist_hash_2.autoencode(epoch_count=40, report=10)
+mnist_hash_2.semantic_hashing_index()
+mnist_hash_2.semantic_hashing_search()
+
