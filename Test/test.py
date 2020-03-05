@@ -477,3 +477,30 @@ mnist_hash_2.autoencode(epoch_count=40, report=10)
 mnist_hash_2.semantic_hashing_index()
 mnist_hash_2.semantic_hashing_search()
 
+#Chap14
+mnist_eng = MnistEngDataset()
+ 
+conf_eng1 = {
+    'encoder': [['full', {'width':10}]],
+    'decoder': [['lstm', {'recur_size':32, 'inseq':False,
+                          'outseq':True, 'timesteps':6}],
+                ['seqwrap', ['full', {'width':27, 'actfunc':'none'}]]]
+}
+
+encdec_eng1 = EncoderDecoder('encdec_eng1', mnist_eng, conf_eng1)
+encdec_eng1.exec_1_step(epoch_count=10, report=2)
+
+conf_eng2 = {
+    'encoder': [['full', {'width':10}],
+                ['batch_normal'],
+                ['full', {'width':10}]],
+    'decoder': [['lstm', {'recur_size':32, 'inseq':False,
+                          'outseq':True, 'timesteps':6}],
+                ['seqwrap', ['full', {'width':27, 'actfunc':'none'}]]]
+}
+
+encdec_eng2 = EncoderDecoder('encdec_eng2', mnist_eng, conf_eng2)
+encdec_eng2.exec_1_step(epoch_count=10, report=2)
+
+encdec_eng2_2 = EncoderDecoder('encdec_eng2_2', mnist_eng, conf_eng2)
+encdec_eng2_2.exec_2_step(epoch_count=10, report=5)

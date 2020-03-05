@@ -41,6 +41,11 @@
 >    * sigmoid_derv 오류 찾아내
 >* 2020/02/13
 >    * Chap12- CNN과 RNN의 결합 : 장면 전환 판별 신경망
+>Advanced application neural network structure
+>* 2020/02/20
+>    * Chap13- 오토인코더 : 엠니스트 이미지 재현 및 분류 신경망
+>*2020/03/05
+>    * Chap14- 인코더-디코더 : 엠니스트 이미지 숫자 읽기 신경망
 <hr/>
 
 

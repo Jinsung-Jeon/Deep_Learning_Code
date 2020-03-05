@@ -51,7 +51,7 @@ def rnn_ext_forward_seqwrap_layer(self, x, hconfig, pm):
         
     y_shape = tuple([mb_size, timesteps1]) + hidden.shape[1:]
     
-    y = np.zero([mb_size, timesteps1]) + hidden.shape[1:]
+    y = np.zeros([mb_size, timesteps1, np.prod(y_shape[2:])])
     y[:, 0, 0] = lengths
     y[:, 1:, :] = hidden.reshape([mb_size, timesteps1-1, -1])
     y = y.reshape(y_shape)

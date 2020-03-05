@@ -84,7 +84,7 @@ Dataset.shuffle_data = dataset_shuffle_data
 def dataset_forward_postproc(self, output, y, mode=None):
     if mode is None:
         mode = self.mode
-        
+
     if mode == 'regression':
         diff = output - y 
         square = np.square(diff)

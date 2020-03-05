@@ -132,7 +132,7 @@ def cnn_reg_alloc_batch_normal_layer(self, input_shape, hconfig):
     pm['mvar'] = np.ones(bn_dim)
     if rescale:
         pm['scale'] = np.ones(bn_dim)
-        pm['shift'] = np.zeros(bn_Dim)
+        pm['shift'] = np.zeros(bn_dim)
     return pm, input_shape
 
 def cnn_reg_forward_batch_normal_layer(self, x, hconfig, pm):
