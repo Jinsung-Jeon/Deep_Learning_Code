@@ -504,3 +504,23 @@ encdec_eng2.exec_1_step(epoch_count=10, report=2)
 
 encdec_eng2_2 = EncoderDecoder('encdec_eng2_2', mnist_eng, conf_eng2)
 encdec_eng2_2.exec_2_step(epoch_count=10, report=5)
+
+encdec_eng2_3 = EncoderDecoder('encdec_eng2_3', mnist_eng, conf_eng2)
+encdec_eng2_3.exec_3_step(epoch_count=10, report=5)
+
+#Chap15
+dset_pic_gogh = GanDatasetPicture('gogh.jpg')
+dset_pic_jungsun = GanDatasetPicture('jungsun.jpg')
+print(dset_pic_gogh)
+print(dset_pic_jungsun)
+
+conf_pic = {
+    'seed_shape': [16],
+    'generator': [['full', {'width':64}],
+                  ['full', {'width':32*32*3, 'actfunc':'sigmoid'}]],
+    'discriminor': [['full', {'width':64}],
+                  ['full', {'width':1, 'actfunc':'none'}]]
+}
+
+gan_pic_gogh = Gan("gan_pic_gogh", dset_pic_gogh, conf_pic, dump_structure=True)
+gan_pic_gogh.exec_all(epoch_count=100, report=20)
